@@ -2,16 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { TicketContextProvider } from './context/TicketContext';
+import { AuthContextProvider } from './context/AuthContext';
+import { MealContextProvider  } from './context/MealContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthContextProvider>
+    <MealContextProvider>
+   <TicketContextProvider>
+   <App />
+   </TicketContextProvider>
+   </MealContextProvider>
+   </AuthContextProvider>
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

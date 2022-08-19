@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route, 
+  Navigate
+} from "react-router-dom";
+import Hero  from './pages/hero/Hero';
+import SignUpPage from './pages/login/SignUpPage.jsx';
+import LoginPage from './pages/login/LoginPage.jsx';
+import Tickets from "./pages/hero/Tickets";
+import { useAuthContext} from './hooks/useAuthContext'
+import Meal from './pages/hero/Meal'
 
 function App() {
+
+  const {user} = useAuthContext()
+
+  const nav = () => {
+    if(user.email === 'mirianangelk@gmail.com'){
+      return <Navigate to='/cook'/>
+    }else{
+     return <Navigate to='/tickets'/>
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    <Routes>
+    <Route index path="/" element={!user ? <Hero/> : nav()} />
+    <Route path="/login" element={!user ? <LoginPage/> : <Navigate to='/'/>} />
+    <Route path="/signup" element={!user ? <SignUpPage/> : <Navigate to='/'/>} />
+    <Route path="/tickets" element={user ? <Tickets/> : <Navigate to='/'/>} />
+    <Route path="/cook" element={user ? <Meal/> : <Navigate to='/'/>} />
+    </Routes>
+    </BrowserRouter>
   );
 }
 
